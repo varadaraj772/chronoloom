@@ -10,8 +10,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@notifee/react-native": "^9.1.3",
+    "@pchmn/expo-material3-theme": "^1.3.2",
+    "@react-native-firebase/app": "^21.6.1",
+    "@react-native-firebase/messaging": "^21.6.1",
     "@react-navigation/drawer": "^7.0.11",
     "@react-navigation/native": "^7.0.6",
+    "@robinbobin/react-native-google-drive-api-wrapper": "^1.2.4",
+    "expo": "^52.0.0",
     "moment": "^2.30.1",
     "react": "18.3.1",
     "react-native": "0.76.3",

@@ -1,12 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import {SafeAreaView, StyleSheet, View, Text} from 'react-native';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {initApp} from './src/utils/notification';
 import {
   Drawer as PaperDrawer,
   Menu,
   FAB,
   Searchbar,
-  Provider,
   IconButton,
+  PaperProvider,
 } from 'react-native-paper';
 import {
   createDrawerNavigator,
@@ -17,7 +18,12 @@ import moment from 'moment';
 import {getReminders, saveReminders} from './src/utils/storage';
 import ReminderList from './src/components/ReminderList';
 import ReminderModal from './src/components/ReminderModal';
-
+import DummyScreen1 from './src/screens/DummyScreen1';
+import DummyScreen2 from './src/screens/DummyScreen2';
+import {useMaterial3Theme} from '@pchmn/expo-material3-theme';
+import {useMemo} from 'react';
+import {useColorScheme} from 'react-native';
+import {MD3DarkTheme, MD3LightTheme} from 'react-native-paper';
 const Drawer = createDrawerNavigator();
 
 const HomeScreen = ({sortBy, sortOrder, onSort, frequencyFilter}) => {
@@ -28,6 +34,7 @@ const HomeScreen = ({sortBy, sortOrder, onSort, frequencyFilter}) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
+    initApp();
     // Load reminders on mount
     const loadReminders = async () => {
       const savedReminders = await getReminders();
@@ -159,18 +166,6 @@ const HomeScreen = ({sortBy, sortOrder, onSort, frequencyFilter}) => {
   );
 };
 
-const DummyScreen1 = () => (
-  <View style={styles.dummyScreen}>
-    <Text>Dummy Screen 1</Text>
-  </View>
-);
-
-const DummyScreen2 = () => (
-  <View style={styles.dummyScreen}>
-    <Text>Dummy Screen 2</Text>
-  </View>
-);
-
 const CustomDrawerContent = ({navigation, setFrequencyFilter}) => {
   return (
     <DrawerContentScrollView>
@@ -234,6 +229,16 @@ const CustomDrawerContent = ({navigation, setFrequencyFilter}) => {
 };
 
 const App = () => {
+  const colorScheme = useColorScheme();
+  const {theme} = useMaterial3Theme();
+
+  const paperTheme = useMemo(
+    () =>
+      colorScheme === 'dark'
+        ? {...MD3DarkTheme, colors: {...MD3DarkTheme.colors, ...theme.dark}}
+        : {...MD3LightTheme, colors: {...MD3LightTheme.colors, ...theme.light}},
+    [colorScheme, theme],
+  );
   const [menuVisible, setMenuVisible] = useState(false);
   const [sortBy, setSortBy] = useState('createdAt');
   const [sortOrder, setSortOrder] = useState('asc');
@@ -246,7 +251,7 @@ const App = () => {
   };
 
   return (
-    <Provider>
+    <PaperProvider theme={paperTheme}>
       <NavigationContainer>
         <Drawer.Navigator
           drawerContent={props => (
@@ -305,7 +310,7 @@ const App = () => {
           <Drawer.Screen name="Dummy Screen 2" component={DummyScreen2} />
         </Drawer.Navigator>
       </NavigationContainer>
-    </Provider>
+    </PaperProvider>
   );
 };
 
@@ -322,11 +327,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 16,
     bottom: 16,
-  },
-  dummyScreen: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
 

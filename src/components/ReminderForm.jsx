@@ -2,17 +2,22 @@ import React, {useState} from 'react';
 import {StyleSheet, View, ScrollView, Text, Alert} from 'react-native';
 import {Button, TextInput, Menu, Divider} from 'react-native-paper';
 import DatePicker from 'react-native-date-picker';
+import moment from 'moment';
 
 const ReminderForm = ({onSubmit, initialData = {}}) => {
-  const [description, setDescription] = useState(initialData?.description || '');
-  const [date, setDate] = useState(initialData?.date ? new Date(initialData?.date) : new Date());
+  const [description, setDescription] = useState(
+    initialData?.description || '',
+  );
+  const [date, setDate] = useState(
+    initialData?.date ? new Date(initialData?.date) : new Date(),
+  );
   const [category, setCategory] = useState(initialData?.category || '');
-  const [frequency, setFrequency] = useState(initialData?.frequency || 'Daily'); // New state for frequency
+  const [frequency, setFrequency] = useState(initialData?.frequency || 'Daily');
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
-  const [categoryMenuVisible, setCategoryMenuVisible] = useState(false); // Separate state for category menu
-  const [frequencyMenuVisible, setFrequencyMenuVisible] = useState(false); // Separate state for frequency menu
+  const [categoryMenuVisible, setCategoryMenuVisible] = useState(false);
+  const [frequencyMenuVisible, setFrequencyMenuVisible] = useState(false);
   const [categoryDropIcon, setCategoryDropIcon] = useState('menu-down');
-  const [frequencyDropIcon, setFrequencyDropIcon] = useState('menu-down'); // Separate icon for frequency
+  const [frequencyDropIcon, setFrequencyDropIcon] = useState('menu-down');
 
   const handleSubmit = () => {
     if (!description || !category || !frequency) {
@@ -163,8 +168,17 @@ const ReminderForm = ({onSubmit, initialData = {}}) => {
           mode="outlined"
           onPress={() => setDatePickerVisible(true)}
           style={styles.dateButton}>
-          {date ? `Date: ${date.toLocaleString()}` : 'Set Date and Time'}
+          {date ? (
+            <Text style={styles.dateText} numberOfLines={2}>
+              {`${moment(date).format('Do MMMM YYYY')}\nat ${moment(
+                date,
+              ).format('h:mm a')}`}
+            </Text>
+          ) : (
+            'Set Date and Time'
+          )}
         </Button>
+
         <DatePicker
           modal
           open={isDatePickerVisible}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "107829662602",
+    "project_id": "varada-s-projects",
+    "storage_bucket": "varada-s-projects.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:107829662602:android:30cee8bd5cbb8c24fe6e73",
+        "android_client_info": {
+          "package_name": "com.chronoloom"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDL590OltYU16OtDmkRrRrATgq5B9Ropx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

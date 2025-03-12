@@ -1,0 +1,67 @@
+import {StyleSheet, Text, View, Button} from 'react-native';
+import React from 'react';
+import notifee, {
+  TriggerType,
+  TimestampTrigger,
+  AndroidImportance,
+} from '@notifee/react-native';
+
+const DummyScreen2 = () => {
+  const sendNotificationAfter30Seconds = async () => {
+    try {
+      // Request permissions (iOS)
+      await notifee.requestPermission();
+
+      // Create a notification channel (required for Android)
+      const channelId = await notifee.createChannel({
+        id: 'default',
+        name: 'Default Channel',
+        importance: AndroidImportance.HIGH,
+      });
+
+      // Set up a trigger for 30 seconds later
+      const trigger: TimestampTrigger = {
+        type: TriggerType.TIMESTAMP,
+        timestamp: Date.now() + 10 * 1000, // Current time + 30 seconds
+      };
+
+      // Schedule the notification
+      await notifee.createTriggerNotification(
+        {
+          title: 'Scheduled Notification',
+          body: 'This notification was scheduled 10 seconds ago!',
+          android: {
+            channelId,
+          },
+        },
+        trigger,
+      );
+
+      console.log('Notification scheduled for 10 seconds later.');
+    } catch (error) {
+      console.error('Error scheduling notification:', error);
+    }
+  };
+
+
+
+  return (
+    <View style={styles.dummyScreen}>
+      <Text>DummyScreen2</Text>
+      <Button
+        title="Send Notification After 10s"
+        onPress={sendNotificationAfter30Seconds}
+      />
+    </View>
+  );
+};
+
+export default DummyScreen2;
+
+const styles = StyleSheet.create({
+  dummyScreen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});

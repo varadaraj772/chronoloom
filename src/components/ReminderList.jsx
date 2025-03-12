@@ -72,9 +72,12 @@ const ReminderList = ({reminders, onEdit, onDelete, onComplete}) => {
                 <Card.Content>
                   <Text style={styles.time}>
                     {`Scheduled on: ${moment(item.date).format(
-                      'MMMM Do YYYY, h:mm A',
+                      'Do MMMM YYYY',
                     )}`}
+                    {'\n'}
+                    {`At ${moment(item.date).format('h:mm a')}`}
                   </Text>
+
                   <Text style={styles.timeLeft}>
                     {`Occurs: ${getTimeLeft(item.date)}`}
                   </Text>
@@ -97,12 +100,12 @@ const ReminderList = ({reminders, onEdit, onDelete, onComplete}) => {
 
 const styles = StyleSheet.create({
   card: {
-    marginVertical: 10,
+    marginVertical: 4,
     borderRadius: 15,
     padding: 10,
     marginHorizontal: 5,
     backgroundColor: '#fff',
-    elevation: 3, // Adds shadow effect for better visibility
+    elevation: 3,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -110,7 +113,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconButton: {
-    marginRight: 4, // Space between buttons
+    marginRight: 4,
   },
   timeLeft: {
     marginVertical: 8,
@@ -126,11 +129,12 @@ const styles = StyleSheet.create({
   },
   frequency: {
     marginVertical: 8,
-    color: '#28a745', // Green for frequency text
+    color: '#28a745',
+
     fontSize: 14,
   },
   divider: {
-    marginVertical: 10,
+    marginVertical: 5,
   },
   emptyText: {
     textAlign: 'center',
